@@ -1,10 +1,12 @@
 import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { mainReducer, defaultState } from './reducers';
 import thunk from 'redux-thunk';
 
 import {createMuiTheme, MuiThemeProvider, withStyles, createStyles, WithStyles} from '@material-ui/core';
+import {AccountStatus} from './pages';
 
 const store = createStore(mainReducer, defaultState(), applyMiddleware(thunk));
 
@@ -39,6 +41,11 @@ const App: React.FunctionComponent<WithStyles<typeof styles>> = props => {
     <Provider store={store}>
       <MuiThemeProvider theme={theme}>
         <div className={props.classes.root}>
+          <BrowserRouter>
+            <Switch>
+              <Route exact path="/" component={AccountStatus} />
+            </Switch>
+          </BrowserRouter>
         </div>
       </MuiThemeProvider>
     </Provider>
