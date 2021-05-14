@@ -1,5 +1,12 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import { mainReducer, defaultState } from './reducers';
+import thunk from 'redux-thunk';
+
 import {createMuiTheme, MuiThemeProvider, withStyles, createStyles, WithStyles} from '@material-ui/core';
+
+const store = createStore(mainReducer, defaultState(), applyMiddleware(thunk));
 
 const theme = createMuiTheme({
   palette: {
@@ -29,12 +36,13 @@ const styles = createStyles({
 
 const App: React.FunctionComponent<WithStyles<typeof styles>> = props => {
   return (
-    <MuiThemeProvider theme={theme}>
-      <div className={props.classes.root}>
-      </div>
-    </MuiThemeProvider>
-  );
-}
+    <Provider store={store}>
+      <MuiThemeProvider theme={theme}>
+        <div className={props.classes.root}>
+        </div>
+      </MuiThemeProvider>
+    </Provider>
+  )
+};
 
 export default withStyles(styles)(App);
-
